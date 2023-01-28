@@ -13,7 +13,8 @@ public class WhatsappRepository {
     private HashMap<Group, List<Message>> groupMessageMap;
     private HashMap<Message, User> senderMap;
     private HashMap<Group, User> adminMap;
-    private HashMap<String, User> userData;
+
+    private HashMap<String, User> userDataMap; // mobile number map with the user
     private int customGroupCount;
     private int messageId;
 
@@ -22,18 +23,18 @@ public class WhatsappRepository {
         this.groupUserMap = new HashMap<Group, List<User>>();
         this.senderMap = new HashMap<Message, User>();
         this.adminMap = new HashMap<Group, User>();
-        this.userData = new HashMap<>();
+        this.userDataMap = new HashMap<>();
         this.customGroupCount = 0;
         this.messageId = 0;
     }
 
     public boolean isNewUser(String mobile) {
-        if(userData.containsKey(mobile)) return false;
+        if(userDataMap.containsKey(mobile)) return false;
         return true;
     }
 
     public void createUser(String name, String mobile) {
-        userData.put(mobile, new User(name, mobile));
+        userDataMap.put(mobile, new User(name, mobile));
     }
 
     public String changeAdmin(User approver, User user, Group group) throws Exception{
@@ -42,7 +43,7 @@ public class WhatsappRepository {
         if(!this.userExistsInGroup(group, user)) throw  new Exception("User is not a participant");
 
         adminMap.put(group, user);
-        return "SUCCESS";
+        return "SUCCESS ADMIN CHANGED";
     }
 
     public Group createGroup(List<User> users) {
@@ -70,8 +71,8 @@ public class WhatsappRepository {
     }
 
     public int sendMessage(Message message, User sender, Group group) throws Exception{
-        if(!groupUserMap.containsKey(group)) throw new Exception("Group does not exist");
-        if(!this.userExistsInGroup(group, sender)) throw  new Exception("You are not allowed to send message");
+        if(!groupUserMap.containsKey(group)) throw new Exception("GROUP DOES NOT EXIST");
+        if(!this.userExistsInGroup(group, sender)) throw  new Exception("YOU ARE NOT A PART OF THIS GROUP");
 
         List<Message> messages = new ArrayList<>();
         if(groupMessageMap.containsKey(group)) messages = groupMessageMap.get(group);

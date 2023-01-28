@@ -10,7 +10,7 @@ public class WhatsappService {
 
     public String createUser(String name, String mobile) {
         whatsappRepository.createUser(name, mobile);
-        return "SUCCESS";
+        return "Succes new user created";
     }
 
     public Group createGroup(List<User> users) {
