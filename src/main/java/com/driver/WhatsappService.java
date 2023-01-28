@@ -8,9 +8,13 @@ import java.util.List;
 public class WhatsappService {
     WhatsappRepository whatsappRepository = new WhatsappRepository() ;
 
+    public boolean isNewUser(String mobile) {
+        return whatsappRepository.isNewUser(mobile);
+    }
+
     public String createUser(String name, String mobile) {
         whatsappRepository.createUser(name, mobile);
-        return "Succes new user created";
+        return "SUCCESS";
     }
 
     public Group createGroup(List<User> users) {
